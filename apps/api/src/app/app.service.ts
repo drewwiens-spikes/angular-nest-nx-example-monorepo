@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Message } from '@your/api-interfaces';
 
 @Injectable()
 export class AppService {
-  getData(): Message {
-    return { message: 'Welcome to api!' };
+  getBuildVersion(): string {
+    return `${Math.round(Math.random() * 100)}.${Math.round(Math.random() * 100)}.${Math.round(Math.random() * 100)}`;
   }
 }

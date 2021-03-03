@@ -48,7 +48,10 @@
             "tsConfig": "apps/canoe/tsconfig.app.json",
             "aot": true,
             "assets": ["apps/canoe/src/favicon.ico", "apps/canoe/src/assets"],
-            "styles": ["apps/canoe/src/styles.css"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
+              "apps/canoe/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
