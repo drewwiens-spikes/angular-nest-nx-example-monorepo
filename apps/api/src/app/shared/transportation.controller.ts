@@ -1,7 +1,7 @@
 import { Post, Body, Get, Query, Param, Put, Controller } from '@nestjs/common';
 
 import { TransportationService } from './transportation.service';
-import type { CreateFareDto, Fare, ListAllEntities } from './types';
+import type { CreateFareDto, Fare, ListAllEntities } from '@app/api-interfaces';
 
 @Controller()
 export abstract class TransportationController {

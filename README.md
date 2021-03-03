@@ -1,6 +1,22 @@
+# Nest Full Stack Example App (Nx Monorepo)
 
+A travel search app that's patterned after [a real one](https://www.kayak.com/). 
 
-# Your
+The frontend and backend were created with:
+
+* [Angular](http://angular.io)
+* [Angular Material](http://material.angular.io)
+* [🐱 NestJS](http://nestjs.com)
+* [Nx](https://nx.dev/)
+
+## Usage
+
+1. Run `yarn install` or `npm install`.
+2. Run `yarn nx serve canoe` or `npm run nx serve canoe`.
+3. Run `yarn nx serve api` or `npm run nx serve api`.
+4. Open `localhost:3000` in your browser. Note the port number!
+
+---
 
 This project was generated using [Nx](https://nx.dev).
 
@@ -53,7 +69,7 @@ Run `ng g @nrwl/angular:lib my-lib` to generate a library.
 
 > You can also use any of the plugins above to generate libraries as well.
 
-Libraries are shareable across libraries and applications. They can be imported from `@your/mylib`.
+Libraries are shareable across libraries and applications. They can be imported from `@app/mylib`.
 
 ## Development server
 

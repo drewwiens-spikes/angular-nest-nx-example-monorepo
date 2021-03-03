@@ -1,4 +1,4 @@
-import { cities, CreateFareDto } from './types';
+import { cities, CreateFareDto } from '@app/api-interfaces';
 
 const NUM_FARES = 2000;
 const PRICE_SWING = 500;

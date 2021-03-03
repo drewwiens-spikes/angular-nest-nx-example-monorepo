@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { ListAllEntities, CreateFareDtoWithMode, FareWithMode } from '../shared/types';
+import { ListAllEntities, CreateFareDtoWithMode, FareWithMode } from '@app/api-interfaces';
 import { BusesService } from '../buses/buses.service';
 import { FlightsService } from '../flights/flights.service';
 import { TrainsService } from '../trains/trains.service';

@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 
-import type { ListAllEntities, CreateFareDtoWithMode, FareWithMode } from '../shared/types';
+import type { ListAllEntities, CreateFareDtoWithMode, FareWithMode } from '@app/api-interfaces';
 import { FaresService } from './fares.service';
 
 @Controller('fares')

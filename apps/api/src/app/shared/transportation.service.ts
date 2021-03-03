@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import type { CreateFareDto, Fare, ListAllEntities, Mode } from './types';
+import type { CreateFareDto, Fare, ListAllEntities, Mode } from '@app/api-interfaces';
 import { generateRandomFares, priceSortFn } from './util';
 
 @Injectable()

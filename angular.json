@@ -36,7 +36,7 @@
       "projectType": "application",
       "root": "apps/canoe",
       "sourceRoot": "apps/canoe/src",
-      "prefix": "your",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

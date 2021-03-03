@@ -1,4 +1,12 @@
-import { startWith, switchMap, debounceTime, finalize, distinctUntilChanged, catchError, map } from 'rxjs/operators';
+import {
+  startWith,
+  switchMap,
+  debounceTime,
+  finalize,
+  distinctUntilChanged,
+  catchError,
+  map,
+} from 'rxjs/operators';
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { MatAutocomplete } from '@angular/material/autocomplete';
@@ -7,15 +15,14 @@ import { FormControl, Validators } from '@angular/forms';
 import { isEqual } from 'lodash-es';
 
 import { cities, cityValidator, getOptionsObs } from './util';
-import { Fare } from './types';
+import { Fare } from '@app/api-interfaces';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-
   @ViewChild('originInput', { static: true }) originInput: ElementRef;
   @ViewChild('originAuto', { static: true }) originAuto: MatAutocomplete;
   @ViewChild('destInput', { static: true }) destInput: ElementRef;
@@ -34,50 +41,58 @@ export class AppComponent {
   loading = new BehaviorSubject<boolean>(false);
 
   constructor(http: HttpClient) {
-
     this.filteredOriginOptions = getOptionsObs(this.origin);
     this.filteredDestOptions = getOptionsObs(this.dest);
 
-    this.results = combineLatest(
-      this.origin.valueChanges.pipe(map(origin => origin.toUpperCase())),
-      this.dest.valueChanges.pipe(map(origin => origin.toUpperCase())),
+    this.results = combineLatest([
+      this.origin.valueChanges.pipe(map((origin) => origin.toUpperCase())),
+      this.dest.valueChanges.pipe(map((origin) => origin.toUpperCase())),
       this.numResults.valueChanges.pipe(startWith(this.numResults.value)),
-      this.modes.valueChanges.pipe(startWith(this.modes.value)) as Observable<string[]>,
-    ).pipe(
+      this.modes.valueChanges.pipe(startWith(this.modes.value)) as Observable<
+        string[]
+      >,
+    ]).pipe(
       distinctUntilChanged(isEqual),
       debounceTime(250), // Wait for the user to stop typing for x milliseconds
       switchMap(([origin, dest, numResults, modes]) => {
-
         // Set query params:
         const params = new HttpParams()
           .set('limit', numResults)
           .set('origin', origin)
           .set('dest', dest)
-          .set('noFlights', modes.find(m => m === 'Flights') ? 'false' : 'true')
-          .set('noBuses', modes.find(m => m === 'Buses') ? 'false' : 'true')
-          .set('noTrains', modes.find(m => m === 'Trains') ? 'false' : 'true');
+          .set(
+            'noFlights',
+            modes.find((m) => m === 'Flights') ? 'false' : 'true'
+          )
+          .set('noBuses', modes.find((m) => m === 'Buses') ? 'false' : 'true')
+          .set(
+            'noTrains',
+            modes.find((m) => m === 'Trains') ? 'false' : 'true'
+          );
 
         // Show loading progressbar if HTTP request takes a while:
         const loadingTimer = setTimeout(() => this.loading.next(true), 500);
 
         // Send the HTTP request:
-        return http.get<Fare[]>('/api/fares/findAll', { params }).pipe(
-          finalize(() => {
-            clearTimeout(loadingTimer);
-            this.loading.next(false); // Hide the loading progressbar
-          }),
-          // Display an error message in place of the transportation emoji:
-          catchError(() => of([{ mode: 'Connection error!' }])),
-        );
-
-      }),
+        return http
+          .get<Fare[]>('/api/fares/findAll', { params })
+          .pipe(
+            finalize(() => {
+              clearTimeout(loadingTimer);
+              this.loading.next(false); // Hide the loading progressbar
+            }),
+            // Display an error message in place of the transportation emoji:
+            catchError(() => of([{ mode: 'Connection error!' } as Partial<Fare>]))
+          );
+      })
     );
-
   }
 
   originEnter() {
     this.originInput.nativeElement.blur();
-    const curOpts = cities.filter(c => c.toLowerCase().includes(this.origin.value.toLowerCase()));
+    const curOpts = cities.filter((c) =>
+      c.toLowerCase().includes(this.origin.value.toLowerCase())
+    );
     if (curOpts.length && this.origin.value) {
       this.origin.setValue(curOpts[0]);
     }
@@ -85,10 +100,11 @@ export class AppComponent {
 
   destEnter() {
     this.destInput.nativeElement.blur();
-    const curOpts = cities.filter(c => c.toLowerCase().includes(this.dest.value.toLowerCase()));
+    const curOpts = cities.filter((c) =>
+      c.toLowerCase().includes(this.dest.value.toLowerCase())
+    );
     if (curOpts.length && this.origin.value) {
       this.dest.setValue(curOpts[0]);
     }
   }
-
 }
