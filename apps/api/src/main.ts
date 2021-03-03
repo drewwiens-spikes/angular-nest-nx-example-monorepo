@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { Request } from 'express';
+import * as expressHttpProxy from 'express-http-proxy';
 
 import { AppModule } from './app/app.module';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const proxy = require('express-http-proxy')(
+const proxy = expressHttpProxy(
   'http://localhost:4200',
   { filter: (req: Request) => req.url.indexOf('/api') !== 0 },
 );
@@ -13,7 +13,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(proxy); // Proxy to Angular dev server
 
-  // Exercise for the reader:
   // Serve the static Angular files in production here.
 
   app.setGlobalPrefix('api');
